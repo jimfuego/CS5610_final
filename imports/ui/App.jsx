@@ -12,7 +12,6 @@ class App extends Component {
             <div>
                 <h1>Welcome to Meteor!</h1>
                 <Home/>
-                <Info/>
             </div>
         );
     }

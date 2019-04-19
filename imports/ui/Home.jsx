@@ -6,7 +6,7 @@ export default class Home extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      counter: 0,
+      index: 0,
       query: "",
       history: []
     };
@@ -15,14 +15,20 @@ export default class Home extends Component {
 
   increment() {
     this.setState({
-      counter: this.state.counter + 1
+      counter: this.state.index + 1
     });
   }
 
   makeButton(query){
     return(
-      <button onClick={() => this.registerQuery()}>{query}</button>
+      <button key={query._id} onClick={() => this.registerQuery()}>{query}</button>
     );
+  }
+
+  clickHistoryButton(evt){
+    // get index
+    console.log(evt);
+    let indexVal = this.state.history
   }
 
   addHistory() {
@@ -33,7 +39,13 @@ export default class Home extends Component {
     this.setState({ [evt.target.name]: evt.target.value });
   }
 
+  getWiki(){
+
+  }
+
   registerQuery(evt){
+    console.log(evt);
+    this.getWiki();
     this.addHistory();
   }
 
@@ -41,14 +53,12 @@ export default class Home extends Component {
     let historyButtons = this.state.history.map(
         historyButton => this.makeButton(historyButton)
     );
-
     return (
       <div>
         <label>Query:</label>
         <input type="text" name="query" onChange={this.handleChange} />
         <button onClick={() => this.registerQuery()}>Click Me</button>
         <div>{ historyButtons }</div>
-        <p>History: {this.state.history} </p>
       </div>
     );
   }
