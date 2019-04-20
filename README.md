@@ -1,5 +1,7 @@
 **Final Exam Extension**
 
+[Website](https://final-ext.herokuapp.com/)
+
 ***1. Cloning the repo***
 
 `git clone https://github.com/jimfuego/CS5610_final.git` 
