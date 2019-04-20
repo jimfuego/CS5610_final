@@ -12,13 +12,6 @@ class Info extends Component {
     );
   }
 
-  getWiki(){
-    let wikipedia = require("wikipedia-js");
-    return new Promise((resolve, reject) => {
-      wikipedia.page.data(term, { content: true }, resolve);
-    });
-  }
-
   render() {
     const links = this.props.links.map(
         link => this.makeLink(link)
@@ -31,7 +24,6 @@ class Info extends Component {
         </div>
     );
   }
-
 }
 
 export default withTracker(() => {
