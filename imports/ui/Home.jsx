@@ -23,6 +23,7 @@ class Home extends Component {
     this.addHistory = this.addHistory.bind(this);
     this.increment = this.increment.bind(this);
     this.clearHistory = this.clearHistory.bind(this);
+    this.registerQuery = this.registerQuery.bind(this);
   }
 
   //
@@ -49,8 +50,8 @@ class Home extends Component {
   }
 
   //
-  callWiki(){
-    Meteor.call("wiki.getWiki", this.state.query, (err,res) => {
+  callWiki(query){
+    Meteor.call("wiki.getWiki", query, (err,res) => {
       if (err) {
         console.log("wikiError:", err);
       }
@@ -70,22 +71,25 @@ class Home extends Component {
   addHistory(query) {
     this.setState({query: query});
     this.setState({ history: [...this.state.history, query]});
-    Meteor.call("community.insert", query, (err, res) => {
+    Meteor.call("community.insert", query, (err) => {
       if (err){
         console.log(err);
       }
       else{
-        console.log("res", res);
         console.log("insert successful (probably)", this.state.query);
       }
     });
-    console.log("history after call: ", this.state.history);
   }
 
   //
   registerQuery(query){
     this.addHistory(query);
-    this.callWiki();
+    this.callWiki(query);
+    this.setState({
+      communityHistory: Meteor.call("community.gerHistory", (err) => {
+        if (err){ console.log(err)}
+      })
+    });
   }
 
   // handles text input bar
@@ -103,10 +107,10 @@ class Home extends Component {
         (historyButton) => this.makeButton(historyButton)
     );
 
-    //make community buttons
-    let communityButtons = this.state.communityHistory.map(
-        (communityButton) =>  this.makeButton(communityButton)
-    );
+    // //make community buttons
+    // let communityButtons = this.state.communityHistory.map(
+    //     (communityButton) =>  this.makeButton(communityButton)
+    // );
 
     //make link buttons
     let links = this.state.links.map(
@@ -126,8 +130,8 @@ class Home extends Component {
         <div><h2>Session History</h2></div>
         <div>{ historyButtons }</div>
 
-        <div><h2>Community History</h2></div>
-        <div>{ communityButtons }</div>
+        {/*<div><h2>Community History</h2></div>*/}
+        {/*<div>{ communityButtons }</div>*/}
 
         <div><h3>Title</h3></div>
         <div>{this.state.title}</div>

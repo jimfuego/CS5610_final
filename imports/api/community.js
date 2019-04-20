@@ -1,6 +1,5 @@
 import { Meteor } from "meteor/meteor";
 import { Mongo } from "meteor/mongo";
-import { Accounts } from "meteor/accounts-base";
 
 export const Community = new Mongo.Collection("community");
 
@@ -29,7 +28,3 @@ Meteor.methods({
         console.log("community.insert ", term)
     }
 });
-
-
-
-
